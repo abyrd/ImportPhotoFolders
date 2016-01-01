@@ -39,15 +39,16 @@ on importFotos(aFolder, albumName, parentFolder)
 	tell application "Photos"
 		with timeout of 600 seconds
 			import imageList into fotoAlbum skip check duplicates no
+			delay 2
 			repeat with im in media items in fotoAlbum
 				if the filename of im does not start with "DSC" and Â
 					the filename of im does not start with "IMG" then
 					set longName to the filename of im
 					set shortName to text 1 thru ((offset of "." in longName) - 1) of longName
 					set the name of im to shortName
-					if not (exists (description of im)) then
-						set the description of im to albumName
-					end if
+				end if
+				if description of im is missing value then
+					set the description of im to albumName
 				end if
 			end repeat
 		end timeout
